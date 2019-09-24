@@ -9,24 +9,22 @@
 
     <!-- Light mode application theme. -->
     <style name="LightTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/LightColorPrimary</item>
         <item name="colorPrimaryDark">@color/LightColorPrimaryDark</item>
         <item name="colorAccent">@color/LightColorAccent</item>
         <item name="android:textColor">@color/LightColorAccent</item>
-        <item name="android:color">@color/DarkModeColorAccent</item>
+        <item name="colorBackgroundFloating">@color/LightColorFloating</item>
     </style>
 
     <!-- Dark mode application theme. -->
     <style name="DarkTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/DarkModeColorPrimary</item>
         <item name="colorPrimaryDark">@color/DarkModeColorPrimaryDark</item>
-        <item name="colorAccent">@color/DarkModeColorAccent</item>
+        <item name="colorAccent">@color/DarkModeTextColor</item>
         <item name="android:colorBackground">@color/DarkModeBackground</item>
-        <item name="android:textColor">@color/DarkModeColorAccent</item>
-        <item name="android:color">@color/DarkModeColorAccent</item>
-        <item name="android:editTextColor">@color/DarkModeColorAccent</item>
-        <item name="android:textColorHint">@color/DarkModeColorAccent</item>
+        <item name="android:textColor">@color/DarkModeTextColor</item>
+        <item name="colorBackgroundFloating">@color/DarkModeColorAccent</item>
+        <item name="android:editTextColor">@color/DarkModeTextColor</item>
+        <item name="android:textColorHint">@color/DarkModeTextColor</item>
     </style>
 </resources>

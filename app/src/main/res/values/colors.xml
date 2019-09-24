@@ -7,9 +7,11 @@
     <color name="LightColorPrimary">#FFBE37</color>
     <color name="LightColorPrimaryDark">#FC8B22</color>
     <color name="LightColorAccent">#000000</color>
+    <color name="LightColorFloating">#F0F0F0</color>
 
     <color name="DarkModeColorPrimary">#2A2D38</color>
-    <color name="DarkModeColorPrimaryDark">#282D31</color>
-    <color name="DarkModeColorAccent">#DADADA</color>
+    <color name="DarkModeColorPrimaryDark">#1A1D20</color>
+    <color name="DarkModeColorAccent">#383853</color>
     <color name="DarkModeBackground">#282D31</color>
+    <color name="DarkModeTextColor">#FFFFFF</color>
 </resources>
