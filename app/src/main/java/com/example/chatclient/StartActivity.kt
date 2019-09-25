@@ -53,10 +53,9 @@ class StartActivity : AppCompatActivity() {
     private fun infoPopUp(id: Int) {
         val alert = AlertDialog.Builder(this)
 
-        if (id == R.id.aboutItem) {
-            alert.setMessage("About")
-        } else if (id == R.id.gitHubItem) {
-            alert.setMessage("GitHub")
+        when (id) {
+            R.id.aboutItem -> alert.setMessage("About")
+            R.id.gitHubItem -> alert.setMessage("GitHub")
         }
         alert.setPositiveButton("Close") {_,_ ->
 
