@@ -1,12 +1,17 @@
 package com.example.chatclient
 
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.EditText
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageButton
 import androidx.appcompat.app.AlertDialog
+import kotlinx.android.synthetic.main.activity_start.*
 
+const val log = "MyLogs"
 const val EXTRA_MESSAGE = "com.example.chatclient.MESSAGE"
 
 class StartActivity : AppCompatActivity() {
@@ -16,20 +21,15 @@ class StartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
 
-        val lightModeButton = findViewById<ImageButton>(R.id.lightButton)
-        val darkModeButton = findViewById<ImageButton>(R.id.darkButton)
-
-
-        lightModeButton.setOnClickListener {
+        lightButton.setOnClickListener {
             startIntent("light")
         }
 
-        darkModeButton.setOnClickListener {
+        darkButton.setOnClickListener {
             startIntent("dark")
         }
-
-
     }
+
     private fun startIntent(mode: String) {
         val intent = Intent(this, MainActivity::class.java).apply {
             putExtra(EXTRA_MESSAGE, mode)
@@ -37,4 +37,30 @@ class StartActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.action_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.aboutItem -> infoPopUp(R.id.aboutItem)
+            R.id.gitHubItem -> infoPopUp(R.id.gitHubItem)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun infoPopUp(id: Int) {
+        val alert = AlertDialog.Builder(this)
+
+        if (id == R.id.aboutItem) {
+            alert.setMessage("About")
+        } else if (id == R.id.gitHubItem) {
+            alert.setMessage("GitHub")
+        }
+        alert.setPositiveButton("Close") {_,_ ->
+
+        }
+        alert.show()
+    }
 }

@@ -23,16 +23,16 @@ class MainActivity : AppCompatActivity() {
         // Dark & Light mode selection
         val mode = intent.getStringExtra(EXTRA_MESSAGE)
 
+        // Dark theme
         if (mode == "dark") {
             theme.applyStyle(R.style.DarkTheme, true)
             setContentView(R.layout.activity_main)
 
+        // Light theme
         } else if (mode == "light") {
             theme.applyStyle(R.style.LightTheme, true)
             setContentView(R.layout.activity_main)
         }
-
-
 
         sendText.visibility = View.INVISIBLE
         sendButton.visibility = View.INVISIBLE
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         val input = EditText(this)
         alert.setView(input)
 
-        // Alert button listeners
+        // Alert buttons
         alert.setPositiveButton("Enter") { _, _ ->
             userName = input.text.toString()
             Log.d(logs, userName)
@@ -82,6 +82,7 @@ class MainActivity : AppCompatActivity() {
         alert.show()
     }
 
+    // Logging
     override fun onStart() {
         super.onStart()
         Log.d(logs,"Application started")

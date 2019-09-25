@@ -5,4 +5,6 @@
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="type_message">Type a message</string>
+    <string name="gitHubItem">GitHub</string>
+    <string name="aboutItem">About</string>
 </resources>
