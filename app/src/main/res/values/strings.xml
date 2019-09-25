@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">ChatClient</string>
     <string name="user_name">Enter a username...</string>
+    <string name="theme_select">Select a theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="type_message">Type a message</string>
 </resources>

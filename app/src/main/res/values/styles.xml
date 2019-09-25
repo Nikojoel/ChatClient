@@ -14,6 +14,8 @@
         <item name="colorAccent">@color/LightColorAccent</item>
         <item name="android:textColor">@color/LightColorAccent</item>
         <item name="colorBackgroundFloating">@color/LightColorFloating</item>
+        <item name="android:textColorHint">@color/LightColorAccent</item>
+        <item name="android:colorBackground">@color/LightColorBackground</item>
     </style>
 
     <!-- Dark mode application theme. -->
