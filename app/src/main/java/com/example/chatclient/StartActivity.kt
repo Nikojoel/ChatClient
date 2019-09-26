@@ -30,6 +30,7 @@ class StartActivity : AppCompatActivity() {
         }
     }
 
+    // Intent for MainActivity
     private fun startIntent(mode: String) {
         val intent = Intent(this, MainActivity::class.java).apply {
             putExtra(EXTRA_MESSAGE, mode)
@@ -37,11 +38,13 @@ class StartActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    // Actionbar menu
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.action_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
+    // Menu items
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.aboutItem -> infoPopUp(R.id.aboutItem)
@@ -50,6 +53,7 @@ class StartActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    // Alerts for menu
     private fun infoPopUp(id: Int) {
         val alert = AlertDialog.Builder(this)
 
