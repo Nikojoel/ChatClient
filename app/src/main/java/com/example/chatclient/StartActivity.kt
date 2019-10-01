@@ -58,8 +58,8 @@ class StartActivity : AppCompatActivity() {
         val alert = AlertDialog.Builder(this)
 
         when (id) {
-            R.id.aboutItem -> alert.setMessage("About")
-            R.id.gitHubItem -> alert.setMessage("GitHub")
+            R.id.aboutItem -> alert.setMessage("Created by Niko Holopainen\n All rights reserved")
+            R.id.gitHubItem -> alert.setMessage("github.com/Nikojoel/ChatClient")
         }
         alert.setPositiveButton("Close") {_,_ ->
 

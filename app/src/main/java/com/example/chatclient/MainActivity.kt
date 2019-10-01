@@ -1,7 +1,5 @@
 package com.example.chatclient
 
-import android.annotation.TargetApi
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,16 +9,25 @@ import android.view.WindowManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.PrintWriter
+import java.net.Socket
+import java.util.*
+
 
 const val logs = "MyLogs"
 
 class MainActivity : AppCompatActivity() {
 
     private var userName = ""
-    private var messages = mutableListOf<String>()
+    var messages = mutableListOf<String>()
+
+    private lateinit var socket: Socket
+    private lateinit var ins: Scanner
+    private lateinit var outs: PrintWriter
+    private lateinit var recyclerViewAdapter: RecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,16 +35,23 @@ class MainActivity : AppCompatActivity() {
         // Dark & Light mode selection
         val mode = intent.getStringExtra(EXTRA_MESSAGE)
 
-        // Dark theme
-        if (mode == "dark") {
-            theme.applyStyle(R.style.DarkTheme, true)
-
-        // Light theme
-        } else if (mode == "light") {
-            theme.applyStyle(R.style.LightTheme, true)
+        when(mode) {
+            "dark" -> theme.applyStyle(R.style.DarkTheme, true) // Dark theme
+            "light" -> theme.applyStyle(R.style.LightTheme, true) // Light theme
         }
 
         setContentView(R.layout.activity_main)
+
+        // Sets adapter and layout manager for the recycler view
+        initRecycler()
+
+        // Thread for accessing input and output streams
+        Thread {
+            this.socket = Socket("10.0.2.2",50000)
+            this.ins = Scanner(socket.getInputStream())
+            this.outs = PrintWriter(socket.getOutputStream(), true)
+            Thread(InputListener(recyclerViewAdapter, this, ins)).start()
+        }.start()
 
         sendText.visibility = View.INVISIBLE
         sendButton.visibility = View.INVISIBLE
@@ -49,25 +63,26 @@ class MainActivity : AppCompatActivity() {
         // User name inputting
         userNamePopUp()
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = RecyclerViewAdapter(this, messages)
-
         sendButton.setOnClickListener {
-            // Add to recyclerview
             addMessage()
         }
 
         sendText.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 addMessage()
-                Log.d(logs, "Enter")
                 return@setOnKeyListener true
             }
             return@setOnKeyListener false
         }
     }
 
-
+    private fun initRecycler() {
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            recyclerViewAdapter = RecyclerViewAdapter(this@MainActivity, messages)
+            adapter = recyclerViewAdapter
+        }
+    }
 
     private fun userNamePopUp() {
         val alert = AlertDialog.Builder(this)
@@ -79,7 +94,7 @@ class MainActivity : AppCompatActivity() {
         // Alert buttons
         alert.setPositiveButton("Enter") { _, _ ->
             userName = input.text.toString()
-            Log.d(logs, userName)
+            Log.d(logs, "username is $userName")
         }
 
         alert.setNegativeButton("Cancel") { _, _ ->
@@ -103,10 +118,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addMessage() {
-        messages.add(sendText.text.toString())
-        recyclerView.adapter?.notifyDataSetChanged()
+        val userText = sendText.text.toString()
+        val chatMessage = ChatMessage(userName, userText)
+        Thread(ThreadMessage(chatMessage,outs)).start()
         sendText.text.clear()
-        Log.d(logs,"$messages")
     }
 
     // Logging
