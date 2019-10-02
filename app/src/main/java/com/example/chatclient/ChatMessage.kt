@@ -3,6 +3,6 @@ package com.example.chatclient
 import kotlinx.serialization.Serializable
 
 @Serializable
-class ChatMessage(val user: String, val message: String) {
+class ChatMessage(val command: String, val user: String, val message: String) {
 
 }

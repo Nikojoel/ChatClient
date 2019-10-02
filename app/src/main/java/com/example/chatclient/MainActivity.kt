@@ -21,7 +21,7 @@ const val logs = "MyLogs"
 
 class MainActivity : AppCompatActivity() {
 
-    private var userName = ""
+    var userName = ""
     var messages = mutableListOf<String>()
 
     private lateinit var socket: Socket
@@ -53,20 +53,18 @@ class MainActivity : AppCompatActivity() {
             Thread(InputListener(recyclerViewAdapter, this, ins)).start()
         }.start()
 
-        sendText.visibility = View.INVISIBLE
-        sendButton.visibility = View.INVISIBLE
-        recyclerView.visibility = View.INVISIBLE
-
-        // Hides the keyboard
+        // Prevents the soft keyboard from activating automatically
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 
         // User name inputting
         userNamePopUp()
 
+        // Listener for the send button
         sendButton.setOnClickListener {
             addMessage()
         }
 
+        // Enter key listener
         sendText.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 addMessage()
@@ -84,34 +82,31 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun userNamePopUp() {
+    fun userNamePopUp() {
+        sendText.visibility = View.INVISIBLE
+        sendButton.visibility = View.INVISIBLE
+        recyclerView.visibility = View.INVISIBLE
+        title = ""
+
         val alert = AlertDialog.Builder(this)
         alert.setTitle("Enter a username")
 
         val input = EditText(this)
+        input.setSingleLine()
         alert.setView(input)
 
-        // Alert buttons
+        input.setOnKeyListener { _, keyCode, keyEvent ->
+            if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                return@setOnKeyListener true
+            }
+            return@setOnKeyListener false
+        }
+
+        // Alert button
         alert.setPositiveButton("Enter") { _, _ ->
             userName = input.text.toString()
-            Log.d(logs, "username is $userName")
-        }
-
-        alert.setNegativeButton("Cancel") { _, _ ->
-            input.text.clear()
-        }
-
-        alert.setOnDismissListener {
-            if (userName == "") {
-                Toast.makeText(applicationContext, "Please enter a username", Toast.LENGTH_SHORT).show()
-                userNamePopUp()
-
-            } else {
-                sendText.visibility = View.VISIBLE
-                sendButton.visibility = View.VISIBLE
-                recyclerView.visibility = View.VISIBLE
-                Toast.makeText(applicationContext, "Welcome $userName", Toast.LENGTH_SHORT).show()
-            }
+            val userQuery = ChatMessage("check",userName, "check")
+            Thread(ThreadMessage(userQuery,outs)).start()
         }
         alert.setCancelable(false)
         alert.show()
@@ -119,12 +114,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun addMessage() {
         val userText = sendText.text.toString()
-        val chatMessage = ChatMessage(userName, userText)
-        Thread(ThreadMessage(chatMessage,outs)).start()
+        val chatMessage = ChatMessage("say", userName, userText)
+        Thread(ThreadMessage(chatMessage, outs)).start()
         sendText.text.clear()
     }
 
-    // Logging
+    // Logging methods
     override fun onStart() {
         super.onStart()
         Log.d(logs,"Application started")
@@ -146,6 +141,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        val dcMessage = ChatMessage("disconnect", userName, "disconnect")
+        Thread(ThreadMessage(dcMessage, outs)).start()
         super.onDestroy()
         Log.d(logs,"Application destroyed")
     }

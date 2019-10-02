@@ -10,8 +10,8 @@ class ThreadMessage(private val message: ChatMessage, private val outPut: PrintW
         try {
             val chatMessageToJson = Json.stringify(ChatMessage.serializer(), message)
             outPut.println(chatMessageToJson)
-            Log.d("MyLogs", "Outgoing json: $chatMessageToJson")
             outPut.flush()
+            Log.d("MyLogs", "Outgoing json: $chatMessageToJson")
         } catch (e: Exception) {
             Log.d("MyLogs","ThreadMessage exception $e")
         }
