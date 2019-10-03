@@ -3,19 +3,14 @@ package com.example.chatclient
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.PrintWriter
 import java.net.Socket
 import java.util.*
-
 
 const val logs = "MyLogs"
 
@@ -72,6 +67,32 @@ class MainActivity : AppCompatActivity() {
             }
             return@setOnKeyListener false
         }
+    } // onCreate
+
+    // Actionbar menu
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.action_command_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    // Menu items
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        var command = ""
+
+        when (item.itemId) {
+            R.id.topItem -> {
+                command = "top"
+            }
+            R.id.userItem -> {
+                command = "users"
+            }
+            R.id.historyItem -> {
+                command = "history"
+            }
+        }
+        val commandMessage = ChatMessage(command,"","")
+        Thread(ThreadMessage(commandMessage,outs)).start()
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initRecycler() {
@@ -80,6 +101,15 @@ class MainActivity : AppCompatActivity() {
             recyclerViewAdapter = RecyclerViewAdapter(this@MainActivity, messages)
             adapter = recyclerViewAdapter
         }
+    }
+
+    fun alert (message: ChatMessage) {
+        val alert = AlertDialog.Builder(this)
+        alert.setPositiveButton("Ok") { _, _ ->
+
+        }
+        alert.setMessage(message.message)
+        alert.show()
     }
 
     fun userNamePopUp() {
@@ -102,7 +132,7 @@ class MainActivity : AppCompatActivity() {
             return@setOnKeyListener false
         }
 
-        // Alert button
+
         alert.setPositiveButton("Enter") { _, _ ->
             userName = input.text.toString()
             val userQuery = ChatMessage("check",userName, "check")
@@ -140,6 +170,7 @@ class MainActivity : AppCompatActivity() {
         Log.d(logs,"Application stopped")
     }
 
+    // Sends a disconnect message to the server when the application is destroyed
     override fun onDestroy() {
         val dcMessage = ChatMessage("disconnect", userName, "disconnect")
         Thread(ThreadMessage(dcMessage, outs)).start()

@@ -7,4 +7,7 @@
     <string name="type_message">Type a message</string>
     <string name="gitHubItem">GitHub</string>
     <string name="aboutItem">About</string>
+    <string name="usersItem">Users</string>
+    <string name="historyItem">History</string>
+    <string name="topItem">Top</string>
 </resources>
