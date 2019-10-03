@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             Thread(InputListener(recyclerViewAdapter, this, ins)).start()
         }.start()
 
-        // Prevents the soft keyboard from activating automatically
+        // Prevents the soft keyboard from focusing on the editText
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 
         // User name inputting
@@ -56,18 +57,19 @@ class MainActivity : AppCompatActivity() {
 
         // Listener for the send button
         sendButton.setOnClickListener {
-            addMessage()
+            sendMessage()
         }
 
         // Enter key listener
         sendText.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                addMessage()
+                sendMessage()
                 return@setOnKeyListener true
             }
             return@setOnKeyListener false
         }
-    } // onCreate
+    } // onCreate ends
+
 
     // Actionbar menu
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -75,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    // Menu items
+    // Menu item listener
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         var command = ""
 
@@ -95,6 +97,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    // Sets adapter and layout manager for the recycler view and passes a reference for the message list
     private fun initRecycler() {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
@@ -103,16 +106,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Alert dialog for showing the current users, chat history and top chatters
     fun alert (message: ChatMessage) {
         val alert = AlertDialog.Builder(this)
+        val text = TextView(this)
         alert.setPositiveButton("Ok") { _, _ ->
 
         }
-        alert.setMessage(message.message)
+        alert.setView(text)
+        text.textSize = 15.0F
+        text.text = message.message
         alert.show()
     }
 
+    // Alert dialog for the username inputting
     fun userNamePopUp() {
+        // Sets all components of the activity to be invisible
         sendText.visibility = View.INVISIBLE
         sendButton.visibility = View.INVISIBLE
         recyclerView.visibility = View.INVISIBLE
@@ -125,6 +134,7 @@ class MainActivity : AppCompatActivity() {
         input.setSingleLine()
         alert.setView(input)
 
+        // Enter key listener
         input.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 return@setOnKeyListener true
@@ -132,7 +142,7 @@ class MainActivity : AppCompatActivity() {
             return@setOnKeyListener false
         }
 
-
+        // Alert dialog positive button, sends a username check to the server
         alert.setPositiveButton("Enter") { _, _ ->
             userName = input.text.toString()
             val userQuery = ChatMessage("check",userName, "check")
@@ -142,7 +152,8 @@ class MainActivity : AppCompatActivity() {
         alert.show()
     }
 
-    private fun addMessage() {
+    // Starts a new thread for each message when chatting
+    private fun sendMessage() {
         val userText = sendText.text.toString()
         val chatMessage = ChatMessage("say", userName, userText)
         Thread(ThreadMessage(chatMessage, outs)).start()

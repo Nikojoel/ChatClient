@@ -29,8 +29,7 @@
         <item name="android:editTextColor">@color/DarkModeTextColor</item>
         <item name="android:textColorHint">@color/DarkModeTextColor</item>
         <item name="android:itemBackground">@color/DarkModeColorAccent</item>
-        <item name="android:textColorAlertDialogListItem">@color/DarkModeTextColor</item>
-        <item name="android:textColorTertiary">@color/DarkModeTextColor</item>
+        <item name="android:textViewStyle">@color/DarkModeTextColor</item>
 
     </style>
 </resources>

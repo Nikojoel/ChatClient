@@ -9,8 +9,8 @@ class ThreadMessage(private val message: ChatMessage, private val outPut: PrintW
 
     override fun run() {
         try {
+            // Outputs the Json string to the server
             val chatMessageToJson = Json.stringify(ChatMessage.serializer(), message)
-
             outPut.println(chatMessageToJson)
             outPut.flush()
         } catch (e: Exception) {

@@ -15,11 +15,14 @@ class InputListener(private val adapter: RecyclerViewAdapter, private val activi
                 val line = inPut.nextLine()
                 val chatMessage = Json.parse(ChatMessage.serializer(), line)
 
+                // Statements for the commands
                 when (chatMessage.command) {
+                    // Username inputting
                     "invalid" -> activity.runOnUiThread {
                         activity.userNamePopUp()
                         Toast.makeText(activity.applicationContext, "Invalid username", Toast.LENGTH_SHORT).show()
                     }
+                    // Accepts the username and lets the user to start chatting
                     "valid" -> activity.runOnUiThread {
                         activity.sendText.visibility = View.VISIBLE
                         activity.sendButton.visibility = View.VISIBLE
@@ -27,6 +30,7 @@ class InputListener(private val adapter: RecyclerViewAdapter, private val activi
                         activity.title = "@${activity.userName}"
                         Toast.makeText(activity.applicationContext, "Connected as ${activity.userName}", Toast.LENGTH_SHORT).show()
                     }
+                    // Actual chatting
                     "say" -> {
                         activity.messages.add("${chatMessage.user}: ${chatMessage.message}")
                         activity.runOnUiThread {
@@ -34,6 +38,7 @@ class InputListener(private val adapter: RecyclerViewAdapter, private val activi
                             activity.recyclerView.scrollToPosition(adapter.itemCount - 1)
                         }
                     }
+                    // Displays current users, chat history and the top chatters
                     "users", "history", "top" -> {
                         activity.runOnUiThread {
                             activity.alert(chatMessage)

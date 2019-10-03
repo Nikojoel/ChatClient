@@ -1,26 +1,22 @@
 package com.example.chatclient
 
-
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ImageButton
 import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_start.*
-
 
 const val EXTRA_MESSAGE = "com.example.chatclient"
 
 class StartActivity : AppCompatActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
 
+        // Buttons for selecting the theme
         lightButton.setOnClickListener {
             startIntent("light")
         }
@@ -30,7 +26,7 @@ class StartActivity : AppCompatActivity() {
         }
     }
 
-    // Intent for MainActivity
+    // Intent to start the MainActivity
     private fun startIntent(mode: String) {
         val intent = Intent(this, MainActivity::class.java).apply {
             putExtra(EXTRA_MESSAGE, mode)
@@ -53,7 +49,7 @@ class StartActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    // Alerts for menu
+    // Alert dialog for the menu items
     private fun infoPopUp(id: Int) {
         val alert = AlertDialog.Builder(this)
 
