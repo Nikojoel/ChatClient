@@ -109,13 +109,10 @@ class MainActivity : AppCompatActivity() {
     // Alert dialog for showing the current users, chat history and top chatters
     fun alert (message: ChatMessage) {
         val alert = AlertDialog.Builder(this)
-        val text = TextView(this)
         alert.setPositiveButton("Ok") { _, _ ->
 
         }
-        alert.setView(text)
-        text.textSize = 15.0F
-        text.text = message.message
+        alert.setMessage(message.message)
         alert.show()
     }
 

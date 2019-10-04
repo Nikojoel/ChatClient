@@ -24,12 +24,15 @@
         <item name="colorPrimaryDark">@color/DarkModeColorPrimaryDark</item>
         <item name="colorAccent">@color/DarkModeTextColor</item>
         <item name="android:colorBackground">@color/DarkModeBackground</item>
-        <item name="android:textColor">@color/DarkModeTextColor</item>
+        <item name="android:textColorPrimary">@color/DarkModeTextColor</item>
         <item name="colorBackgroundFloating">@color/DarkModeColorAccent</item>
         <item name="android:editTextColor">@color/DarkModeTextColor</item>
         <item name="android:textColorHint">@color/DarkModeTextColor</item>
         <item name="android:itemBackground">@color/DarkModeColorAccent</item>
         <item name="android:textViewStyle">@color/DarkModeTextColor</item>
+        <item name="android:actionMenuTextColor">@color/DarkModeTextColor</item>
+        <item name="android:textColor">@color/DarkModeTextColor</item>
+
 
     </style>
 </resources>

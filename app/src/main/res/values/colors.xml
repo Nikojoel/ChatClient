@@ -15,5 +15,6 @@
     <color name="DarkModeColorAccent">#383853</color>
     <color name="DarkModeBackground">#282D31</color>
     <color name="DarkModeTextColor">#FFFFFF</color>
+    <color name="DarkModeFloatingBackGround">#6B7897</color>
 
 </resources>
