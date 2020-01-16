@@ -6,7 +6,7 @@
 2. Open the server with with a desired IDE and the client with Android Studio 
 3. If the `Json.parse(ChatMessage.serializer(), incomingMessage)` at `ChatConnector.kt` wont compile, rebuild the project
 4. Run the server `Main.kt` file and keep it running
-```
+``` kotlin
 fun main() {
     ChatServer().serve()
 }
