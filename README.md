@@ -7,7 +7,7 @@ The intent of this project is to create a chat server running from the IDE accor
 
 1. Server startup: open a socket and wait for clients to connect.
 
-2. After the client has been connected the server greets him with a message and asks user to input a unique username. If username is not unique server will request the user to input another username.
+2. After the client has been connected the server asks user to input a unique username. If username is not unique server will request the user to input another username.
 * After receiving a valid user name server will create a user object.
 * The user object will also keep track of how many messages the user have sent.
 * The new user joining will be broadcasted to all users.
