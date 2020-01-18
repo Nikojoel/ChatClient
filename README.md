@@ -40,5 +40,5 @@ fun main() {
 6. Menu at the top has 3 options.
 * `Users` - Displays current users in the server
 * `History` - Displays history of all messages
-* `Top` - Displays top 5 most active chatters
+* `Top` - Displays top-5 most active chatters
 
