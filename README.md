@@ -1,7 +1,7 @@
 # Android chat client
 
 ### Description
-The intent of this project is to create a chat server running from the IDE according to the requirements of a client.
+The intent of this project is to create a chat server running from the IDE according to the requirements of a client using MVC design pattern.
 
 ### Feature specification
 
